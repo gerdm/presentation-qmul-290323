@@ -12,6 +12,15 @@ Gerardo Duran-Martin
 March 2023
 
 ---
+layout: center
+---
+
+## Gradient descent
+$$
+    \bm\theta^{(e)} := \bm\theta^{(e-1)} - \eta \nabla_\theta \mathcal{L}(\bm\theta^{(e-1)}, {\cal D})
+$$
+
+---
 
 # Sequential estimation
 
