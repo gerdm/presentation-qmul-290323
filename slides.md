@@ -52,6 +52,17 @@ $$
 
 ---
 
+# Bayes' rule for sequential data
+(continued)
+
+How to estimate (or approximate) $p(\theta \vert {\cal D}_{1:t-1})$?
+
+1. KF and variants: EKF, UKF, SLF, ExpFam EKF.
+2. Particle filters: SIS, SMC, VSMC.
+3. R-VGA (Lambert et al., 2021).
+
+---
+
 # Regression example
 The extended Kalman filter (EKF)
 
