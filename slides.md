@@ -4,7 +4,7 @@ theme: default
 background: /cover-lofi-dalle.png
 ---
 
-# One-pass learning methods for neural networks
+# One-pass learning methods for Bayesian neural networks
 ## PhD Fire Talks
 
 Gerardo Duran-Martin
@@ -36,16 +36,9 @@ How can we efficiently train neural networks in one pass of the data?
 # Bayes' rule for sequential data
 How to update the parameter beliefs, one observation at a time?
 
-Let ${\cal D}_t = ({\bf x}_t, y_t)$.  
-In a probabilistic sense, to *train* is to estimate
-
-$$
-    p(\theta \vert {\cal D}_{1:t}) \propto p(\theta) p({\cal D}_{1:t} \vert \theta)
-$$
-at every time $t$.
-
-If we have an estimate for $p(\theta \vert {\cal D}_{1:t-1})$, we can use Bayes' rule to update the posterior
+Let ${\cal D}_t = ({\bf x}_t, y_t)$.  If we have an estimate for $p(\theta \vert {\cal D}_{1:t-1})$, we can use Bayes' rule to update the posterior
 after observing ${\cal D}_t$:
+
 $$
     p(\theta \vert {\cal D}_{1:t}) \propto p({\cal D}_t \vert \theta) p(\theta \vert {\cal D}_{1:t-1})
 $$
@@ -174,3 +167,5 @@ What about LLMs?
 * Lambert, M., Bonnabel, S. & Bach, F. The recursive variational Gaussian approximation (R-VGA). Stat Comput 32, 10 (2022). https://doi.org/10.1007/s11222-021-10068-w
 
 * Haykin, S. (2001). Kalman Filters. In Kalman Filtering and Neural Networks (pp. 1–21). doi:10.1002/0471221546.ch1
+
+* Ollivier, Y. (2018). Online Natural Gradient as a Kalman Filter. ArXiv [Stat.ML]. Retrieved from http://arxiv.org/abs/1703.00209
