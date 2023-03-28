@@ -1,7 +1,7 @@
 ---
 # try also 'default' to start simple
 theme: default
-background: /cover-lofi-dalle.png
+background: https://raw.githubusercontent.com/gerdm/qmul-fire-talk-0323/main/public/cover-lofi-dalle.png
 ---
 
 # One-pass learning methods for Bayesian neural networks
