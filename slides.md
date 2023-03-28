@@ -150,10 +150,10 @@ FSLL | $\theta = ({\bf w}, \bm\varphi = {\bf Az} + {\bf b})$ | $O(d_L^3)$ | toxi
 
 <!-- add video with path "lofi-posterior-predictive -->
 <video class="horizontal-center" width=500 controls muted autoplay>
-  <source src="lofi-posterior-predictive.mp4" type="video/mp4">
+  <source src="/lofi-posterior-predictive.mp4" type="video/mp4">
 </video>
 
----
+--
 
 # One final thought
 What about LLMs?
