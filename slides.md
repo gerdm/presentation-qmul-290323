@@ -34,7 +34,7 @@ How can we efficiently train neural networks in one pass of the data?
 ---
 
 # Bayes' rule for sequential data
-A state-space representation.
+How to update the parameter beliefs, one observation at a time?
 
 Let ${\cal D}_t = ({\bf x}_t, y_t)$.  
 In a probabilistic sense, to *train* is to estimate
@@ -55,16 +55,16 @@ $$
 # Bayes' rule for sequential data
 (continued)
 
-How to estimate (or approximate) $p(\theta \vert {\cal D}_{1:t-1})$?
+How to estimate (or approximate) $p(\theta \vert {\cal D}_{1:t})$?
 
-1. KF and variants: EKF, UKF, SLF, ExpFam EKF.
+1. KF and variants: EKF, UKF, SLF.
 2. Particle filters: SIS, SMC, VSMC.
-3. R-VGA (Lambert et al., 2021).
+3. R-VGA, Expfam EKF.
 
 ---
 
 # Regression example
-The extended Kalman filter (EKF)
+The extended Kalman filter (EKF) for neural networks.
 
 Suppose:
 1. $f: \mathbb{R}^D \times \mathbb{R}^M \to \mathbb{R}$ is a multilayered perceptron (MLP) with parameters $\theta$.  
@@ -82,7 +82,7 @@ $$
 $$
 
 Then $p(\theta \vert {\cal D}_{1:t})$ is Gaussian with mean $\mu_t$ and covariance $\Sigma_t$ given
-by the Kalman filter update equations.
+by the extended Kalman filter update equations.
 
 ---
 
@@ -101,7 +101,7 @@ Applying the EKF equations to neural networks is not straightforward.
 1. EKF update equation is order $O(D^3)$.
 1. The likelihood $p(y_t \vert \theta, {\bf x}_t)$ is not Gaussian.
 2. High-dimensional parameter space ($D \gg N$).
-3. Continously changing environment.
+3. Continuously changing environment (catastrophic forgetting).
 4. Choice of prior $p_0(\theta) = {\cal N}(\theta | \mu_0, \Sigma_0)$ is not trivial for neural networks.
 
 ---
@@ -134,21 +134,6 @@ where $f: \mathbb{R}^D \times \mathbb{R}^C \to \mathbb{R}$ is any neural network
 
 ---
 
-# Bayes' rule for sequential data
-R-VGA framework (Lambert et al., 2021)
-
-We recursively estimate Gaussian approximation to the posterior 
-by solving the following optimisation problem:
-$$
-    \mu_t, \Sigma_t =
-    \argmin_{\mu, \Sigma}\text{KL}({\cal N}(\theta \vert \mu, \Sigma) || c_t q_{t-1}(\theta) p(y_t \vert \theta, {\bf x}_t))
-$$
-
-where $q_{t-1}(\theta) = {\cal N}(\theta \vert \mu_{t-1}, \Sigma_{t-1})$ and
-$q_0(\theta_0) = p(\theta_0)$.
-
----
-
 # Overview of our methods
 
 <!-- create a markdown table with three rows and three columns -->
@@ -160,45 +145,32 @@ FSLL | $\theta = ({\bf w}, \bm\varphi = {\bf Az} + {\bf b})$ | $O(d_L^3)$ | toxi
 
 ---
 
-# Low-rank EKF (LoFi)
-Parameter learning with a low-rank + diagonal covariance matrix
+# LoFi for continual learning
+(An example)
 
-Let ${\bf W}_t \in \mathbb{R}^{D \times d}$ be a low-rank matrix,
-and let $\bm\Upsilon_t \in \mathbb{R}^{D \times D}$ be a diagonal matrix.
-We take the posterior to be Gaussian with mean $\mu_t$ and precision matrix
-
-$$
-    \bm\Sigma_t^{-1} = \bm\Upsilon_t  + {\bf W}_t {\bf W}_t^\intercal
-$$
-
+<!-- add video with path "lofi-posterior-predictive -->
+<video class="horizontal-center" width=500 controls muted autoplay>
+  <source src="lofi-posterior-predictive.mp4" type="video/mp4">
+</video>
 
 ---
 
-# Subspace EKF
-Parameter learning in a subspace
+# One final thought
+What about LLMs?
 
-Let $p(y_t | \theta, {\bf x}_t) = {\cal N}(y_t \vert f(\theta, {\bf x}_t), \sigma^2)$.
-$$
-    \theta_t = {\bf Az}_t + {\bf b}
-$$
-
+<img class="horizontal-center" width=700
+     src="/chat-gpt-demo.png"/>
 
 ---
 
-# Feature-subspace last-layer (SFL2)
-A financial application
+# References
 
-Write the link function as
-$f(\theta, {\bf x}_t) = \text{softmax}\left({\bf W}_t^\intercal h(\bm\varphi_t, {\bf x}_t) + b_t\right)$,
-and decompose
+* Duran-Martin, G., Kara, A., & Murphy, K. (2021). Efficient Online Bayesian Inference for Neural Bandits. ArXiv [Cs.LG]. Retrieved from http://arxiv.org/abs/2112.00195
 
-$$
-    \bm\varphi = {\bf A} {\bf z} + {\bf b}
-$$
+* Chang P., Duran-Martin G, Shestopaloff A, Jones M, & Murphy K. (2023). Low-rank extended Kalman filtering for online learning of neural networks from streaming data. (submitted)
 
----
+* Cartea A., Duran-Martin G, & Sanchez-Betancourt L. (2023). Detecting toxic flow: A sequential Bayes approach. (work in progress)
 
-# Future work
+* Lambert, M., Bonnabel, S. & Bach, F. The recursive variational Gaussian approximation (R-VGA). Stat Comput 32, 10 (2022). https://doi.org/10.1007/s11222-021-10068-w
 
-1. Uncertainty calibration
-1. Is the assumption of a Gaussian posterior reasonable for neural networks?
+* Haykin, S. (2001). Kalman Filters. In Kalman Filtering and Neural Networks (pp. 1–21). doi:10.1002/0471221546.ch1
