@@ -88,7 +88,7 @@ Neural network posterior predictive distribution
 
 ---
 
-# What gives?
+# Why do we need new techniques?
 Applying the EKF equations to neural networks is not straightforward.
 
 1. EKF update equation is order $O(D^3)$.
@@ -128,13 +128,16 @@ where $f: \mathbb{R}^D \times \mathbb{R}^C \to \mathbb{R}$ is any neural network
 ---
 
 # Overview of our methods
+Low-rank online training.
 
-<!-- create a markdown table with three rows and three columns -->
-| method | assumption | update cost| application
+Let $D$ be the number of parameters
+and $d$ the dimension of the subspace or the rank of the low-rank approximation ($d \ll D$).
+
+| method | assumption | time cost| tested on
 |---|---|---|---|
-Subspace EKF | $\bm\theta = {\bf Az} + {\bf b}$ | $O(d^3)$ | bandits|
-LoFi | $\Sigma_t = \Upsilon_t + {\bf W}_t{\bf W}_t^\intercal$ | $O((d+C)^2$) | continual learning
-FSLL | $\theta = ({\bf w}, \bm\varphi = {\bf Az} + {\bf b})$ | $O(d_L^3)$ | toxic-flow prediction
+Subspace EKF | $\bm\theta_t = {\bf Wz}_t + {\bf b}$ | $O(Dd + d^3)$ | bandits|
+LoFi | $\bm\Sigma_t = \bm\Upsilon_t + {\bf W}_t{\bf W}_t^\intercal$ | $O(Dd^2 + d^3)$ | continual learning
+FSLL | $\bm\theta_t = ({\bf w}_t^{(\text{o})}, {\bf w}_t^{(\text{h})} = {\bf Az}_t^{(\text{h})} + {\bf b})$ | $O(D_\text{h}d_\text{h} + d_\text{h}^3 + d_\text{o}^3)$ | toxic-flow prediction
 
 ---
 
@@ -146,13 +149,6 @@ FSLL | $\theta = ({\bf w}, \bm\varphi = {\bf Az} + {\bf b})$ | $O(d_L^3)$ | toxi
   <source src="/lofi-posterior-predictive.mp4" type="video/mp4">
 </video>
 
---
-
-# One final thought
-What about LLMs?
-
-<img class="horizontal-center" width=700
-     src="/chat-gpt-demo.png"/>
 
 ---
 
